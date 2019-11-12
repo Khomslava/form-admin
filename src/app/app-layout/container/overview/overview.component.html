@@ -1,0 +1,19 @@
+<div class="container" fxLayout="column nowrap">
+    <app-header></app-header>
+    <!-- <mat-sidenav-container fxFlex="1 1 auto">
+        <mat-sidenav mode="side" opened >
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container> -->
+    <mat-sidenav-container fxFlex="1 1 auto">
+        <mat-sidenav class="left-sidebar" mode="side" opened>
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,6 @@
+@import 'variables';
+@import 'typography';
+
+@mixin admin-theme($theme, $typography) {
+    @include admin-typography();
+}

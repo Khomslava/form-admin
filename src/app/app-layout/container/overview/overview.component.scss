@@ -1,0 +1,16 @@
+@import "variables";
+
+.left-sidebar {
+    width: 18rem;
+    border-right: 1px solid $color-light-gray;
+    box-shadow: 1px 0 4px rgba($color-light-gray, .5);
+    background-color: $color-concrete;
+}
+
+.mat-drawer-container {
+    background-color: transparent;
+}
+
+.content-wrapper {
+    position: relative;
+}
