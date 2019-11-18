@@ -1,4 +1,6 @@
 
+@import 'assets/styles/index';
+
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
@@ -25,8 +27,6 @@ $form-admin-theme: mat-light-theme($form-admin-primary, $form-admin-accent, $for
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($form-admin-theme);
-
-@import 'assets/styles/index';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -2,8 +2,8 @@
 
 .left-sidebar {
     width: 18rem;
-    border-right: 1px solid $color-light-gray;
-    box-shadow: 1px 0 4px rgba($color-light-gray, .5);
+    border-right: 1px solid $color-gray-light;
+    box-shadow: 1px 0 4px rgba($color-gray-light, .5);
     background-color: $color-concrete;
 }
 
@@ -13,4 +13,9 @@
 
 .content-wrapper {
     position: relative;
+}
+
+.container {
+    height: 100%;
+    overflow: hidden;
 }
