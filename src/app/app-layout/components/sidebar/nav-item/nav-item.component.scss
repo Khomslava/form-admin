@@ -1,0 +1,72 @@
+@import "variables";
+$sub-item-space: $base-horiz-padd + 2rem;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  width: 100%;
+}
+
+.nav-item {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-radius: 0;
+  text-align: inherit;
+  transition: all 200ms ease;
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.active {
+    color: $set-color-primary;
+
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: .08;
+    }
+
+    &:hover ::ng-deep .mat-button-focus-overlay {
+      opacity: .1;
+    }
+  }
+
+  &:hover {
+    text-shadow: 0 1px 1px $color-white;
+
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: .1;
+    }
+  }
+
+  .item-icon {
+    margin-right: $base-vert-padd;
+  }
+
+  ::ng-deep .mat-button-wrapper {
+    align-items: center;
+  }
+
+  .sub-menu & {
+    padding-left: $sub-item-space;
+  }
+
+  &__toggle-menu.mat-icon {
+    transition: transform 200ms ease;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.sub-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 200ms ease;
+
+  &.expanded {
+    max-height: 350px;
+  }
+}

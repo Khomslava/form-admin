@@ -21,10 +21,11 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean | UrlTree {
 
-    const currentUser = this.authService.isAuthenticated();
-    if (currentUser) {
-      return true;
-    }
+    // const currentUser = this.authService.isAuthenticated();
+    // if (currentUser) {
+    //   return true;
+    // }
+    return true;
 
     this.router.navigate(['/' + ERoutingPath.LOGIN], {queryParams: { returnUrl: next.url } });
     return false;

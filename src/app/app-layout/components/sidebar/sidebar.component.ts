@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
 import { NavigationItems } from '../../../shared/consts/storage.consts';
 
 @Component({
@@ -8,6 +9,7 @@ import { NavigationItems } from '../../../shared/consts/storage.consts';
 })
 export class SidebarComponent implements OnInit {
   menuItems = NavigationItems;
+  @Input() isMobileLayout: boolean;
 
   constructor() { }
 

@@ -1,1 +1,16 @@
-<p>nav-item works!</p>
+<a mat-button
+   (click)="onItemSelected(item)"
+   [ngClass]="{'active': item.route ? router.isActive(item.route, false) : false}"
+   class="nav-item">
+  <mat-icon *ngIf="item.iconName" class="item-icon">{{item.iconName}}</mat-icon>
+  <span class="nav-item__name" i18n>{{item.displayName | translate}}</span>
+  <span fxFlex *ngIf="item.children && item.children.length">
+    <span fxFlex></span>
+    <mat-icon class="nav-item__toggle-menu" [ngClass]="{'expanded': expanded}">
+      expand_more
+    </mat-icon>
+  </span>
+</a>
+<div *ngIf="item.children" class="sub-menu" [ngClass]="{'expanded': expanded}">
+  <app-nav-item *ngFor="let child of item.children" [item]="child" [depth]="depth+1" (expand)="expand()"></app-nav-item>
+</div>

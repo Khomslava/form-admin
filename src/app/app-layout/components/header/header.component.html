@@ -1,1 +1,36 @@
-<h3 class="name">FORM бюрэау факамаза архитект</h3>
+
+<header fxLayout="row nowrap" fxLayoutAlign="center">
+  <!-- <button *ngIf="isMobileLayout" mat-icon-button class="menu-button" (click)="toggleSidenav()">
+    <mat-icon *ngIf="!sidenavOpened" aria-label="Open menu">menu</mat-icon>
+    <mat-icon *ngIf="sidenavOpened" aria-label="Close menu">close</mat-icon>
+  </button>
+  <div class="logo-wrp" (click)="goToLink()" title="CardWow" fxLayoutAlign="flex-start center">
+    <img class="logo" alt="CardWow" src="../../../assets/images/logo@x2.png" />
+  </div> -->
+
+  <div class="header-nav" fxFlex="1 0 auto" fxLayoutAlign="flex-end center">
+
+    <!-- <img *ngIf="user && user.avatarUrl" class="avatar" [src]="getAvatarUrl()" /> -->
+    <!-- <div *ngIf="!user || !user.avatarUrl" class="default-avatar" fxLayout="row" fxLayoutAlign="center center">
+      <div *ngIf="user && (user.firstName || user.lastName); else noInitials">
+        {{ userInitials() }}
+      </div>
+      <ng-template #noInitials>
+        {{ noData }}
+      </ng-template>
+    </div> -->
+
+    <h3 class="name">FORM бюрэау факамаза архитект</h3>
+
+    <!-- <div class="user-name">
+      <div *ngIf="user && (user.firstName || user.lastName); else noName">{{ user.firstName }} {{ user.lastName }}</div>
+      <ng-template #noName>
+        {{ noData }}
+      </ng-template>
+    </div> -->
+
+    <!-- <button mat-button (click)="logout()">
+      {{ 'general.logout' | translate }}
+    </button> -->
+  </div>
+</header>
