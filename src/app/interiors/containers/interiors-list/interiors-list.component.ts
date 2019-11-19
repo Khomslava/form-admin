@@ -4,13 +4,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ProjectService } from './../../../core/services/project.service';
 
 @Component({
-  selector: 'app-projects-list',
-  templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.scss']
+  selector: 'app-interiors-list',
+  templateUrl: './interiors-list.component.html',
+  styleUrls: ['./interiors-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit {
+export class InteriorsListComponent implements OnInit {
+
   projects: any;
-  displayedColumns: string[] = ['image', 'name', 'categories', 'order', 'year', 'square' ];
+  displayedColumns: string[] = ['order', 'image', 'name', 'categories', 'square', 'year', 'actions'];
   dataSource: MatTableDataSource<any[]>;
 
   constructor(
@@ -22,9 +23,9 @@ export class ProjectsListComponent implements OnInit {
   }
 
   getProjects() {
-     this.projectService.getProjects().subscribe( projects => {
-       console.log(projects);
-       this.dataSource = new MatTableDataSource(projects);
+    this.projectService.getProjects().subscribe(projects => {
+      console.log(projects);
+      this.dataSource = new MatTableDataSource(projects);
     });
   }
 

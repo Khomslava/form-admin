@@ -7,9 +7,9 @@ export enum eAppDirections {
 
 export const NavigationItems = [
     {
-        displayName: 'navigation-menu.projects',
-        iconName: 'add',
-        route: 'projects',
+        displayName: 'navigation-menu.interiors',
+        iconName: 'bathtub',
+        route: 'interiors',
         children: [
             // {
             //     displayName: 'navigation-menu.project',
@@ -18,20 +18,26 @@ export const NavigationItems = [
         ]
     },
     {
-        displayName: 'navigation-menu.product',
-        iconName: 'add',
+        displayName: 'navigation-menu.architecture',
+        iconName: 'apartment',
+        route: 'architecture',
+        children: []
+    },
+    {
+        displayName: 'navigation-menu.products',
+        iconName: 'hotel',
         route: 'products',
         children: []
     },
     {
         displayName: 'navigation-menu.about',
-        iconName: 'add',
+        iconName: 'info',
         route: 'about',
         children: []
     },
     {
         displayName: 'navigation-menu.contacts',
-        iconName: 'add',
+        iconName: 'phone',
         route: 'contacts',
         children: []
     }

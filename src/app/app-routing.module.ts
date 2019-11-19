@@ -25,8 +25,16 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: ERoutingPath.PROJECTS,
-        loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule)
+        path: ERoutingPath.INTERIORS,
+        loadChildren: () => import('./interiors/interiors.module').then(m => m.InteriorsModule)
+      },
+      {
+        path: ERoutingPath.ARCHITECTURE,
+        loadChildren: () => import('./architecture/architecture.module').then(m => m.ArchitectureModule)
+      },
+      {
+        path: ERoutingPath.PRODUCTS,
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
       },
       {
         path: ERoutingPath.CONTACTS,

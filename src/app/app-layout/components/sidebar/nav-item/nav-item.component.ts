@@ -27,9 +27,9 @@ export class NavItemComponent implements OnInit {
   ngOnInit() {
     this.router.events
       .pipe(
-        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-        takeUntil(this.destroy$)
+      startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      takeUntil(this.destroy$)
       )
       .subscribe(({ url }) => {
         const match = url.search(this.item.route);

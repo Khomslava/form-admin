@@ -1,9 +1,19 @@
-<div class="projects-wrp">
+<div class="interiors-wrp">
+    <div class="title">
+        Interiors
+    </div>
+
     <mat-form-field class="filter">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Column Order -->
+        <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef> Order </th>
+            <td mat-cell *matCellDef="let element"> {{element.order}} </td>
+        </ng-container>
 
         <!-- Column Image -->
         <ng-container matColumnDef="image">
@@ -23,12 +33,6 @@
             <td mat-cell *matCellDef="let element"> {{element.categoryId}} </td>
         </ng-container>
 
-        <!-- Column Order -->
-        <ng-container matColumnDef="order">
-            <th mat-header-cell *matHeaderCellDef> Order </th>
-            <td mat-cell *matCellDef="let element"> {{element.order}} </td>
-        </ng-container>
-
         <!-- Column Square -->
         <ng-container matColumnDef="square">
             <th mat-header-cell *matHeaderCellDef> Square, m2 </th>
@@ -39,6 +43,14 @@
         <ng-container matColumnDef="year">
             <th mat-header-cell *matHeaderCellDef> Year </th>
             <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+        </ng-container>
+
+        <!-- Column Year -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element"> 
+                EDIT
+            </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -16,6 +16,11 @@ header {
   font-size: $mat-icon-size;
 }
 
+.name {
+    width: 100%;
+    text-align: center;
+}
+
 .menu-button {
   margin-right: $base-vert-padd;
 }

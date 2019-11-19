@@ -1,10 +1,12 @@
 export enum ERoutingPath {
     BASE = '',
-    DEFAULT = 'projects',
+    DEFAULT = 'interiors',
     PAGE_NOT_FOUND = 'page-not-found',
     ERROR_PAGE = 'error',
     LOGIN = 'login',
-    PROJECTS = 'projects',
+    INTERIORS = 'interiors',
+    ARCHITECTURE = 'architecture',
+    PRODUCTS = 'products',
     ABOUT = 'about',
     CONTACTS = 'contacts'
 }
