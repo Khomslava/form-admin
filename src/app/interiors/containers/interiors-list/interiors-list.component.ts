@@ -1,3 +1,4 @@
+import { filter, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -23,7 +24,14 @@ export class InteriorsListComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjects().subscribe(projects => {
+    this.projectService.getProjects()
+      .pipe(map((projects: any[]) => {
+        if (projects && projects.length) {
+          projects = projects.filter(project => project.categoryId.some( category => category === 2));
+        }
+        return projects;
+      }))
+      .subscribe(projects => {
       console.log(projects);
       this.dataSource = new MatTableDataSource(projects);
     });
@@ -31,6 +39,20 @@ export class InteriorsListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  deleteProject(project) {
+
+  }
+
+  getLogoUrl(project): string {
+    const ph = project.photosLarge;
+    for (const key in project.photosLarge) {
+      if (project.photosLarge[key].order === 1) {
+        return project.photosLarge[key].url;
+      }
+    }
+    return undefined;
   }
 
 }

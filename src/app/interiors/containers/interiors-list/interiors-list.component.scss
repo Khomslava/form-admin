@@ -1,19 +1,43 @@
+@import 'variables';
+
 :host {
   .interiors-wrp {
     padding: 0 1.5rem;
-
     .title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        text-align: center;
-        padding: 0.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.5rem 0;
     }
-
     .filter {
       width: 100%;
     }
     table {
       width: 100%;
+    }
+    tr.mat-row {
+      outline: none;
+      cursor: pointer;
+    }
+    .mat-row:hover {
+      background-color: $color-gray-light;
+    }
+    .error-icon {
+      color: $color-error;
+    }
+    .logo {
+      max-height: 2rem;
+      max-width: 4rem;
+      object-fit: contain;
+    }
+    .delete-project {
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+      color: $color-gray;
+      &:hover {
+        color: $color-black;
+      }
     }
   }
 }
