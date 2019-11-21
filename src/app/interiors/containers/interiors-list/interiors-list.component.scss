@@ -1,5 +1,4 @@
 @import 'variables';
-
 :host {
   .interiors-wrp {
     padding: 0 1.5rem;
@@ -9,8 +8,18 @@
       text-align: center;
       padding: 0.5rem 0;
     }
-    .filter {
-      width: 100%;
+    .header {
+      .add-project {
+        .mat-icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          line-height: 2.5rem;
+        }
+      }
+      .filter {
+        width: 20rem;
+      }
     }
     table {
       width: 100%;
@@ -30,14 +39,22 @@
       max-width: 4rem;
       object-fit: contain;
     }
-    .delete-project {
-      position: relative;
-      z-index: 2;
-      cursor: pointer;
-      color: $color-gray;
-      &:hover {
-        color: $color-black;
+    .action-buttons {
+      .action-button {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        color: $color-gray;
+        &:hover {
+          color: $color-black;
+        }
       }
+    }
+    .column-sm {
+      width: 60px;
+    }
+    .column-md {
+      width: 100px;
     }
   }
 }

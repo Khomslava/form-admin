@@ -1,7 +1,8 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../../environments/environment';
@@ -31,13 +32,15 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    FlexLayoutModule,
     NgxWebstorageModule.forRoot(),
   ],
   exports: [
     HttpClientModule,
     CommonModule,
     TranslateModule,
-    NgxWebstorageModule
+    NgxWebstorageModule,
+    FlexLayoutModule
   ]
 })
 export class CoreModule { }

@@ -1,0 +1,17 @@
+<div class="title">
+    {{data.content.title | translate}}
+</div>
+
+<div class="content-text">
+    {{data.content.text | translate}}
+</div>
+
+<div class="buttons-container" fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="onCancel()">
+        {{data.content.cancel | translate}}
+    </button>
+
+    <button mat-raised-button (click)="onConfirm()" class="button-confirm" color="primary">
+        {{data.content.confirm | translate}}
+    </button>
+</div>

@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,11 +12,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from './modules/material.module';
 
 // Components
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
-const COMPONENTS = [];
+const COMPONENTS = [ConfirmDialogComponent];
 
 @NgModule({
-  declarations: [],
+  declarations: COMPONENTS,
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +30,7 @@ const COMPONENTS = [];
 
     MaterialModule,
   ],
+  entryComponents: [ConfirmDialogComponent],
   exports: [
     CommonModule,
     FormsModule,

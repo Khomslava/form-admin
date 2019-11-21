@@ -5,5 +5,23 @@
         "products": "Products",
         "about": "About",
         "contacts": "Contacts"
+    },
+    "general": {
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "filter": "Filter"
+    },
+    "project": {
+        "delete_project": "Delete project",
+        "if_you_delete_project": "if_you_delete_project",
+        "add_new": "Add new",
+        "interiors": "Interiors",
+        "square": "Square, m2",
+        "name": "Name",
+        "order": "Order",
+        "year": "Year",
+        "actions": "Actions",
+        "move_up": "Move up",
+        "move_down": "Move down"
     }
 }

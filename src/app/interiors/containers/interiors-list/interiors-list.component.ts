@@ -1,8 +1,13 @@
-import { filter, map } from 'rxjs/operators';
+
+import { filter, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProjectService } from './../../../core/services/project.service';
+
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-interiors-list',
@@ -11,12 +16,15 @@ import { ProjectService } from './../../../core/services/project.service';
 })
 export class InteriorsListComponent implements OnInit {
 
-  projects: any;
-  displayedColumns: string[] = ['order', 'image', 'name', 'categories', 'square', 'year', 'actions'];
+  projects = [];
+  displayedColumns: string[] = ['order', 'image', 'name', 'square', 'year', 'actions'];
   dataSource: MatTableDataSource<any[]>;
 
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -33,6 +41,7 @@ export class InteriorsListComponent implements OnInit {
       }))
       .subscribe(projects => {
       console.log(projects);
+      this.projects = projects;
       this.dataSource = new MatTableDataSource(projects);
     });
   }
@@ -41,8 +50,52 @@ export class InteriorsListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  deleteProject(project) {
+  confirmDeleteProject(index: number, event: Event) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        content: {
+          title: 'project.delete_project',
+          text: 'project.if_you_delete_project',
+          cancel: 'general.cancel',
+          confirm: 'general.delete'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.projects.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.projects);
+      }
+    });
+  }
+
+  createProject() {
+
+  }
+
+  moveProjectUp(index: number, event: Event) {
+    event.stopPropagation();
+    if (this.projects[index - 1]) {
+      const tempProject = this.projects[index];
+      this.projects[index] = this.projects[index - 1];
+      this.projects[index - 1] = tempProject;
+      this.dataSource = new MatTableDataSource(this.projects);
+      this.saveProjects();
+    }
+  }
+
+  moveProjectDown(index: number, event: Event) {
+    event.stopPropagation();
+    if (this.projects[index + 1]) {
+      const tempProject = this.projects[index];
+      this.projects[index] = this.projects[index + 1];
+      this.projects[index + 1] = tempProject;
+      this.dataSource = new MatTableDataSource(this.projects);
+      this.saveProjects();
+    }
   }
 
   getLogoUrl(project): string {
@@ -53,6 +106,10 @@ export class InteriorsListComponent implements OnInit {
       }
     }
     return undefined;
+  }
+
+  private saveProjects() {
+
   }
 
 }
