@@ -1,7 +1,8 @@
-import { InteriorsListComponent } from './containers/interiors-list/interiors-list.component';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { ProjectComponent } from './containers/project/project.component';
+import { InteriorsListComponent } from './containers/interiors-list/interiors-list.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: InteriorsListComponent
+    component: ProjectComponent
   }
 ];
 

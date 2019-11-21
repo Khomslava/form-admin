@@ -1,9 +1,9 @@
-
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 import { ProjectService } from './../../../core/services/project.service';
 
@@ -24,7 +24,8 @@ export class InteriorsListComponent implements OnInit {
     private projectService: ProjectService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,6 +37,8 @@ export class InteriorsListComponent implements OnInit {
       .pipe(map((projects: any[]) => {
         if (projects && projects.length) {
           projects = projects.filter(project => project.categoryId.some( category => category === 2));
+          projects = this.sortByOrder(projects);
+          projects = this.setProjectsOrders(projects);
         }
         return projects;
       }))
@@ -67,21 +70,26 @@ export class InteriorsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.projects.splice(index, 1);
+        this.projects = this.setProjectsOrders(this.projects);
         this.dataSource = new MatTableDataSource(this.projects);
       }
     });
   }
 
   createProject() {
+    this.router.navigate(['/interiors/new']);
+  }
 
+  goToProject(project) {
+    this.router.navigate([`/interiors/${project.id}`]);
   }
 
   moveProjectUp(index: number, event: Event) {
     event.stopPropagation();
     if (this.projects[index - 1]) {
-      const tempProject = this.projects[index];
-      this.projects[index] = this.projects[index - 1];
-      this.projects[index - 1] = tempProject;
+      this.projects[index].orders['2'] = index - 1;
+      this.projects[index - 1].orders['2'] = index;
+      this.sortByOrder(this.projects);
       this.dataSource = new MatTableDataSource(this.projects);
       this.saveProjects();
     }
@@ -90,9 +98,9 @@ export class InteriorsListComponent implements OnInit {
   moveProjectDown(index: number, event: Event) {
     event.stopPropagation();
     if (this.projects[index + 1]) {
-      const tempProject = this.projects[index];
-      this.projects[index] = this.projects[index + 1];
-      this.projects[index + 1] = tempProject;
+      this.projects[index].orders['2'] = index + 1;
+      this.projects[index + 1].orders['2'] = index;
+      this.sortByOrder(this.projects);
       this.dataSource = new MatTableDataSource(this.projects);
       this.saveProjects();
     }
@@ -110,6 +118,26 @@ export class InteriorsListComponent implements OnInit {
 
   private saveProjects() {
 
+  }
+
+  private sortByOrder(projects): any[] {
+    return projects.sort((a, b) => {
+      if (a.orders && a.orders['2'] && b.orders && b.orders['2']) {
+        return a.orders['2'] - b.orders['2'];
+      }
+      return a.order - b.order;
+    });
+  }
+
+  private setProjectsOrders(projects): any[] {
+    projects.forEach( (project, i) => {
+      if (project.orders) {
+        project.orders['2'] = i;
+      } else {
+        project.orders = {'2': i};
+      }
+    });
+    return projects;
   }
 
 }

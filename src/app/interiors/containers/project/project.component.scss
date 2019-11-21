@@ -1,0 +1,63 @@
+@import 'variables';
+
+.project-form {
+  margin: 1.5rem;
+
+  .form-content {
+    .column:not(:last-child) {
+      margin-right: 2rem;
+    }
+
+    .column {
+      min-width: 250px;
+
+      .row {
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      .text-editor {
+        margin-bottom: 1rem;
+
+        .label {
+          margin-top: 0.5rem;
+          margin-bottom: 0.25rem;
+          color: $color-gray;
+          font-size: 0.75rem;
+        }
+
+        .editor-error {
+          margin-top: 0.25rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      .toggle-status-errors {
+        .label {
+          color: $color-invalid;
+        }
+
+        .error-field {
+          color: $color-invalid;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+  .buttons-container {
+    width: 100%;
+
+    button {
+      margin: 1rem;
+    }
+  }
+}
+
+.spinner-wrapper {
+  align-items: flex-start;
+
+  .mat-spinner {
+    margin-top: 10rem;
+  }
+}
