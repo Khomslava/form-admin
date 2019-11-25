@@ -10,14 +10,14 @@ import { ProjectService } from './../../../core/services/project.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-interiors-list',
-  templateUrl: './interiors-list.component.html',
-  styleUrls: ['./interiors-list.component.scss']
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
-export class InteriorsListComponent implements OnInit {
+export class ProductListComponent implements OnInit {
 
   projects = [];
-  displayedColumns: string[] = ['order', 'image', 'name', 'square', 'year', 'actions'];
+  displayedColumns: string[] = ['order', 'image', 'name', 'factory', 'year', 'actions'];
   dataSource: MatTableDataSource<any[]>;
 
   constructor(
@@ -36,7 +36,7 @@ export class InteriorsListComponent implements OnInit {
     this.projectService.getProjects()
       .pipe(map((projects: any[]) => {
         if (projects && projects.length) {
-          projects = projects.filter(project => project.categoryId.some(category => category === 'interior'));
+          projects = projects.filter(project => project.categoryId.some(category => category === 'product'));
           projects = this.sortByOrder(projects);
           projects = this.setProjectsOrders(projects);
         }
@@ -45,7 +45,7 @@ export class InteriorsListComponent implements OnInit {
       .subscribe(projects => {
         this.projects = projects;
         this.dataSource = new MatTableDataSource(projects);
-    });
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -68,13 +68,13 @@ export class InteriorsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res && project.categoryId && project.categoryId.length) {
-        if (project.categoryId.length  === 1) {
+        if (project.categoryId.length === 1) {
           this.projectService.deleteProject(project.id);
           this.projects.splice(index, 1);
         } else {
-          this.projects[index].categoryId = this.projects[index].categoryId.filter(category => category !== 'interior');
+          this.projects[index].categoryId = this.projects[index].categoryId.filter(category => category !== 'product');
           this.projectService.updateProject(project.id, this.projects[index]);
-          this.projects = this.projects.filter(proj => proj.categoryId.some(category => category === 'interior'));
+          this.projects = this.projects.filter(proj => proj.categoryId.some(category => category === 'product'));
         }
 
         this.projects = this.setProjectsOrders(this.projects);
@@ -85,18 +85,18 @@ export class InteriorsListComponent implements OnInit {
   }
 
   createProject() {
-    this.router.navigate(['/interiors/new']);
+    this.router.navigate(['/products/new']);
   }
 
   goToProject(project) {
-    this.router.navigate([`/interiors/${project.id}`]);
+    this.router.navigate([`/products/${project.id}`]);
   }
 
   moveProjectUp(index: number, event: Event) {
     event.stopPropagation();
     if (this.projects[index - 1]) {
-      this.projects[index].orders.interior = index - 1;
-      this.projects[index - 1].orders.interior = index;
+      this.projects[index].orders.product = index - 1;
+      this.projects[index - 1].orders.product = index;
       this.projectService.updateProject(this.projects[index].id, this.projects[index]);
       this.projectService.updateProject(this.projects[index - 1].id, this.projects[index - 1]);
       this.projects = this.sortByOrder(this.projects);
@@ -107,8 +107,8 @@ export class InteriorsListComponent implements OnInit {
   moveProjectDown(index: number, event: Event) {
     event.stopPropagation();
     if (this.projects[index + 1]) {
-      this.projects[index].orders.interior = index + 1;
-      this.projects[index + 1].orders.interior = index;
+      this.projects[index].orders.product = index + 1;
+      this.projects[index + 1].orders.product = index;
       this.projectService.updateProject(this.projects[index].id, this.projects[index]);
       this.projectService.updateProject(this.projects[index + 1].id, this.projects[index + 1]);
       this.projects = this.sortByOrder(this.projects);
@@ -133,18 +133,18 @@ export class InteriorsListComponent implements OnInit {
   private sortByOrder(projects): any[] {
     return projects.sort((a, b) => {
       if (a.orders && b.orders) {
-        return a.orders.interior - b.orders.interior;
+        return a.orders.product - b.orders.product;
       }
       return a.order - b.order;
     });
   }
 
   private setProjectsOrders(projects): any[] {
-    projects.forEach( (project, i) => {
+    projects.forEach((project, i) => {
       if (project.orders) {
-        project.orders.interior = i;
+        project.orders.product = i;
       } else {
-        project.orders = { interior: i};
+        project.orders = { product: i };
       }
     });
     return projects;

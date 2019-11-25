@@ -6,7 +6,8 @@ import { LocalStorageService } from 'ngx-webstorage';
   providedIn: 'root'
 })
 export class CustomTranslationService {
-  constructor(private translate: TranslateService,
+  constructor(
+    private translate: TranslateService,
     private localStorage: LocalStorageService) {
     translate.addLangs(['en']);
   }

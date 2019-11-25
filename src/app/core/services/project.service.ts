@@ -1,22 +1,50 @@
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+
+import { map, filter } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  private projects: Observable<any[]>;
+  private projects$: Observable<any[]>;
+  private projectsRef$: AngularFireList<any[]>;
 
   constructor(
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private http: HttpClient
   ) {
-    this.projects = db.list('projects').valueChanges();
-    console.log(this.projects);
+    this.projects$ = db.list('projects').valueChanges();
+    this.projectsRef$ = db.list('projects');
   }
 
-  getProjects() {
-    return this.projects;
+  getProjects(): Observable<any[]>  {
+    return this.projects$;
+  }
+
+  getProjectById(id: string): Observable<any> {
+    return this.projects$.pipe(
+      map( projects => {
+        const filtedProjecs = projects.filter( proj => proj.id === id);
+        return filtedProjecs && filtedProjecs.length ? filtedProjecs[0] : of({});
+      })
+    );
+  }
+
+  public createProject(project) {
+    return this.http.post(`${environment.firebase.databaseURL}/projects.json`, project, { observe: 'response' });
+  }
+
+  updateProject(key: string, project) {
+    return this.projectsRef$.update(key, project);
+  }
+
+  deleteProject(key: string) {
+    return this.projectsRef$.remove(key);
   }
 }

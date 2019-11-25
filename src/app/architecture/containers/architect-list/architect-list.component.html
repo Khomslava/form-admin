@@ -1,0 +1,85 @@
+<div class="interiors-wrp">
+    <div class="title">
+        {{ 'project.architectures' | translate }}
+    </div>
+
+    <div class="header " fxLayout="row nowrap" fxLayoutAlign="space-between center">
+        <mat-form-field class="filter">
+            <input matInput (keyup)="applyFilter($event.target.value)" [placeholder]="'general.filter' | translate">
+        </mat-form-field>
+
+        <button mat-icon-button class="add-project" color="primary" (click)="createProject()" [matTooltip]="'project.add_new' | translate"
+            matTooltipPosition="above">
+            <mat-icon>
+                add_circle
+            </mat-icon>
+        </button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Column Order -->
+        <ng-container matColumnDef="order">
+            <th mat-header-cell class="column-sm" *matHeaderCellDef> {{ 'project.order' | translate }} </th>
+            <td mat-cell class="column-sm" *matCellDef="let element"> {{element.orders.interior + 1}} </td>
+        </ng-container>
+
+        <!-- Column Image -->
+        <ng-container matColumnDef="image">
+            <th mat-header-cell class="column-md" *matHeaderCellDef> </th>
+            <td mat-cell class="column-md" *matCellDef="let element">
+                <img class="logo" [src]="getLogoUrl(element)" />
+            </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> {{ 'project.name' | translate }} </th>
+            <td mat-cell *matCellDef="let element"> {{element.translate[1].name}} </td>
+        </ng-container>
+
+        <!-- Column Square -->
+        <ng-container matColumnDef="square">
+            <th mat-header-cell *matHeaderCellDef> {{ 'project.square' | translate }} </th>
+            <td mat-cell *matCellDef="let element"> {{element.square}} </td>
+        </ng-container>
+
+        <!-- Column Year -->
+        <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> {{ 'project.year' | translate }} </th>
+            <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+        </ng-container>
+
+        <!-- Column Actions -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell class="column-sm" *matHeaderCellDef> {{ 'project.actions' | translate }} </th>
+            <td mat-cell class="column-sm" *matCellDef="let element; let i=index;">
+                <div class="action-buttons" fxLayout="row nowrap" fxLayoutAlign="space-between center">
+                    <button mat-icon-button class="action-button" (click)="moveProjectUp(i, $event)" [matTooltip]="'project.move_up' | translate"
+                        matTooltipPosition="above" [disabled]="i === 0">
+                        <mat-icon>
+                            arrow_upward
+                        </mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="action-button" (click)="moveProjectDown(i, $event)" [matTooltip]="'project.move_down' | translate"
+                        matTooltipPosition="above" [disabled]="projects && projects.length === i + 1">
+                        <mat-icon>
+                            arrow_downward
+                        </mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="action-button" (click)="confirmDeleteProject(element, i, $event)" [matTooltip]="'project.delete_project' | translate"
+                        matTooltipPosition="above">
+                        <mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToProject(row)"></tr>
+    </table>
+</div>

@@ -1,0 +1,125 @@
+<mat-toolbar class="bread-crumbs">
+  <mat-toolbar-row>
+    <a routerLink="../..">{{'project.interiors' | translate}}</a>
+    <span class="separation"> / </span>
+    <a>
+      <span>{{ projectId === 'new' ? ('project.new_project' | translate) : ('project.edit_project' | translate) }}</span>
+    </a>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<form class="project-form" [formGroup]="projectForm" (keydown.enter)="$event.preventDefault()" novalidate>
+
+  <div class="form-content" fxLayout="row nowrap" fxLayoutAlign="space-between start">
+    <div class="column" fxLayout="column" fxLayoutAlign="start start" fxFlex>
+      <mat-form-field class="row">
+        <mat-label i18n>{{ 'project.categories' | translate }}</mat-label>
+        <mat-select formControlName="categories" multiple>
+          <mat-option *ngFor="let category of categoriesList" [value]="category.id">
+            {{category.title | translate}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="hasError(projectForm.get('categories'), 'required')">
+          {{ "general.field_required" | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox color="primary" formControlName="showInMainPages">{{'project.show_on_main_page' | translate}}</mat-checkbox>
+
+    </div>
+
+    <div class="column" fxLayout="column" fxLayoutAlign="start start" fxFlex>
+      <mat-form-field class="row">
+        <input matInput formControlName="year" [placeholder]="'project.year' | translate" />
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="square" [placeholder]="'project.square' | translate" />
+      </mat-form-field>
+    </div>
+
+    <div class="column" fxLayout="column" fxLayoutAlign="start start" fxFlex>
+
+
+
+      <mat-form-field class="row">
+        <input matInput formControlName="factoryWebLink" [placeholder]="'project.factory_web_link' | translate" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-content" fxLayout="row nowrap" fxLayoutAlign="space-between start">
+    <div formArrayName="translate" *ngFor="let project of projectForm.get('translate').controls; let i = index;" class="column" fxLayout="column" fxLayoutAlign="start start">
+      <div fxFlex [formGroupName]="i">
+        <div class="translate-title"> 
+          {{ getLenguageName(i) | translate}}
+        </div>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="name" [placeholder]="'project.name' | translate" />
+          <mat-error *ngIf="hasError(project.get('name'), 'required')">
+            {{ "general.field_required" | translate }}
+          </mat-error>
+        </mat-form-field>
+
+
+
+        <mat-form-field class="row">
+          <input matInput formControlName="city" [placeholder]="'project.city' | translate" />
+        </mat-form-field>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="country" [placeholder]="'project.country' | translate" />
+        </mat-form-field>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="authors" [placeholder]="'project.authors' | translate" />
+        </mat-form-field>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="photographers" [placeholder]="'project.photographers' | translate" />
+        </mat-form-field>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="factory" [placeholder]="'project.factory' | translate" />
+        </mat-form-field>
+
+        <!-- <mat-form-field class="row">
+          <textarea matInput class="description" formControlName="description" [placeholder]="'project.description' | translate"></textarea>
+        </mat-form-field> -->
+
+        <div class=" description">
+          <div class="label">
+            {{'project.description' | translate}}
+          </div>
+          <quill-editor [styles]="{height: '400px'}" formControlName="description">
+          </quill-editor>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-content" fxLayout="row nowrap" fxLayoutAlign="space-between start">
+    <div class="column" fxLayout="column" fxLayoutAlign="start start" fxFlex>
+      <app-upload-images 
+        [initialFiles]="project?.photosLarge" 
+        (uploadedImages)="uploadedImages($event)">
+      </app-upload-images>
+    </div>
+  </div>
+
+
+  <div class="buttons-container" fxLayout="row nowrap" fxLayoutAlign="end center">
+    <button *ngIf="projectId && projectId !== 'new'" mat-raised-button type="button" (click)="deleteProject()">
+      {{ "general.delete" | translate }}
+    </button>
+
+    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="projectForm.invalid">
+      {{ "general.save" | translate }}
+    </button>
+  </div>
+
+  <div class="spinner-wrapper" *ngIf="isLoading">
+    <mat-spinner diameter="75"></mat-spinner>
+  </div>
+</form>

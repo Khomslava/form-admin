@@ -21,7 +21,7 @@
     <!-- Column Order -->
     <ng-container matColumnDef="order">
       <th mat-header-cell class="column-sm" *matHeaderCellDef> {{ 'project.order' | translate }} </th>
-      <td mat-cell class="column-sm" *matCellDef="let element"> {{element.orders['2']}} </td>
+      <td mat-cell class="column-sm" *matCellDef="let element"> {{element.orders.interior + 1}} </td>
     </ng-container>
 
     <!-- Column Image -->
@@ -69,7 +69,7 @@
             </mat-icon>
           </button>
 
-          <button mat-icon-button class="action-button" (click)="confirmDeleteProject(i, $event)" [matTooltip]="'project.delete_project' | translate"
+          <button mat-icon-button class="action-button" (click)="confirmDeleteProject(element, i, $event)" [matTooltip]="'project.delete_project' | translate"
             matTooltipPosition="above">
             <mat-icon>
               delete

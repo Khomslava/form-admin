@@ -9,7 +9,11 @@
     "general": {
         "cancel": "Cancel",
         "delete": "Delete",
-        "filter": "Filter"
+        "filter": "Filter",
+        "save": "Save",
+        "english": "English",
+        "russian": "Russian",
+        "spanish": "Spanish"
     },
     "project": {
         "delete_project": "Delete project",
@@ -22,6 +26,22 @@
         "year": "Year",
         "actions": "Actions",
         "move_up": "Move up",
-        "move_down": "Move down"
+        "move_down": "Move down",
+        "city": "City",
+        "country": "Country",
+        "authors": "Authors",
+        "photographers": "Photographers",
+        "description": "Description",
+        "new_project": "New project",
+        "edit_project": "Edit project",
+        "factory_web_link": "Factory site link",
+        "categories": "Categories",
+        "factory": "Factory",
+        "show_on_main_page": "Show on main page",
+        "interior": "Interior",
+        "architect": "Architect",
+        "product": "Product",
+        "products": "Products",
+        "architectures": "Architectures"
     }
 }

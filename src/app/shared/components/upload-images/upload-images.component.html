@@ -1,0 +1,32 @@
+<div class="container-photos">
+    <div class="form-group">
+        <span class="title-photos-upload">{{'project.upload_images' | translate}}</span>
+
+        <mat-radio-group (change)="showMainImage($event.value)" dndDropzone (dndDrop)="onDrop($event, imagesSrc)" dndEffectAllowed="move"
+            class="upload-photos-box">
+            <div class="down-place" dndPlaceholderRef>
+                {{'project.drop_images_to_here' | translate}}
+            </div>
+
+            <div *ngFor="let image of imagesSrc; let i = index">
+                <div [dndDraggable]="image" [dndEffectAllowed]="'move'" [dndDisableIf]="false" (dndStart)="onDragStart(i)">
+                    <div dndDragImageRef class="photo">
+                        <img src="{{image.url}}">
+                        <mat-radio-button class="radio-button-main-page" [value]="i" [checked]="i === 0"></mat-radio-button>
+                        <div class="remove-image" (click)="removeImage(i)">
+                            <mat-icon>delete</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-photos">
+                <input type="file" (change)="handleFiles($event)" multiple id="file">
+                <label for="file"></label>
+                <mat-icon>add</mat-icon>
+            </div>
+
+        </mat-radio-group>
+    </div>
+
+</div>
