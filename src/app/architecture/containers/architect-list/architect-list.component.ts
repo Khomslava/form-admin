@@ -58,7 +58,7 @@ export class ArchitectListComponent implements OnInit {
       data: {
         content: {
           title: 'project.delete_project',
-          text: 'project.if_you_delete_project',
+          text: 'project.if_you_delete_project_from_category',
           cancel: 'general.cancel',
           confirm: 'general.delete'
         }
@@ -84,11 +84,11 @@ export class ArchitectListComponent implements OnInit {
   }
 
   createProject() {
-    this.router.navigate(['/architecture/new']);
+    this.router.navigate(['/architectures/new']);
   }
 
   goToProject(project) {
-    this.router.navigate([`/architecture/${project.id}`]);
+    this.router.navigate([`/architectures/${project.id}`]);
   }
 
   moveProjectUp(index: number, event: Event) {

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { CanDeactivateGuard } from './../core/services/guards/can-deactivate.guard';
+
 import { ArchitectListComponent } from './containers/architect-list/architect-list.component';
 import { ProjectComponent } from 'src/app/shared/components/project/project.component';
 
@@ -11,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: ProjectComponent
+    component: ProjectComponent,
+    canDeactivate: [CanDeactivateGuard]
   }
 ];
 

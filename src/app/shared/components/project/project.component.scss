@@ -24,6 +24,11 @@
       .description {
           min-height: 300px;
           max-height: 600px;
+          max-width: calc((100vw - 420px) / 3);
+      }
+
+      .upload-images {
+        margin-top: 1.5rem;
       }
     }
   }

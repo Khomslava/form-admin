@@ -59,7 +59,7 @@ export class InteriorsListComponent implements OnInit {
       data: {
         content: {
           title: 'project.delete_project',
-          text: 'project.if_you_delete_project',
+          text: 'project.if_you_delete_project_from_category',
           cancel: 'general.cancel',
           confirm: 'general.delete'
         }

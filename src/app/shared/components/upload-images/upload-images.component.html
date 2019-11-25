@@ -4,8 +4,8 @@
 
         <mat-radio-group (change)="showMainImage($event.value)" dndDropzone (dndDrop)="onDrop($event, imagesSrc)" dndEffectAllowed="move"
             class="upload-photos-box">
-            <div class="down-place" dndPlaceholderRef>
-                {{'project.drop_images_to_here' | translate}}
+            <div class="down-place" dndPlaceholderRef  fxLayout="row" fxLayoutAlign="center center" >
+                <div>{{'project.drop_image' | translate}}</div>
             </div>
 
             <div *ngFor="let image of imagesSrc; let i = index">

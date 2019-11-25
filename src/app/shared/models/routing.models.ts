@@ -5,7 +5,7 @@ export enum ERoutingPath {
     ERROR_PAGE = 'error',
     LOGIN = 'login',
     INTERIORS = 'interiors',
-    ARCHITECTURE = 'architecture',
+    ARCHITECTURES = 'architectures',
     PRODUCTS = 'products',
     ABOUT = 'about',
     CONTACTS = 'contacts'

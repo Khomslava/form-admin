@@ -30,3 +30,19 @@ $form-admin-theme: mat-light-theme($form-admin-primary, $form-admin-accent, $for
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bread-crumbs {
+  background-color: $color-concrete;
+
+  mat-toolbar-row {
+    a {
+      text-decoration: none;
+      font-weight: 500;
+      color: $color-blue;
+    }
+
+    .separation {
+      margin: 0 0.5rem;
+    }
+  }
+}

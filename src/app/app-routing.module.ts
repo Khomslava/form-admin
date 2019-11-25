@@ -29,7 +29,7 @@ const routes: Routes = [
         loadChildren: () => import('./interiors/interiors.module').then(m => m.InteriorsModule)
       },
       {
-        path: ERoutingPath.ARCHITECTURE,
+        path: ERoutingPath.ARCHITECTURES,
         loadChildren: () => import('./architecture/architecture.module').then(m => m.ArchitectureModule)
       },
       {

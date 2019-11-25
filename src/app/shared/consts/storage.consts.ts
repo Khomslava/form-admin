@@ -18,9 +18,9 @@ export const NavigationItems = [
         ]
     },
     {
-        displayName: 'navigation-menu.architecture',
+        displayName: 'navigation-menu.architectures',
         iconName: 'apartment',
-        route: 'architecture',
+        route: 'architectures',
         children: []
     },
     {

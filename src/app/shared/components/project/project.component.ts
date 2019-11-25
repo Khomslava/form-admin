@@ -1,16 +1,14 @@
 import { Upload } from './../../../core/models/upload.model';
 import { UploadService } from './../../../core/services/upload.service';
 
-
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError, forkJoin } from 'rxjs';
-import { finalize, catchError, map, first, debounceTime, distinctUntilChanged, takeWhile, switchMap, tap } from 'rxjs/operators';
-
+import { finalize, catchError, map, first, debounceTime, distinctUntilChanged, takeWhile, switchMap, tap, filter } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -34,6 +32,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   project: any;
   images: any[];
   upload: Upload;
+  previousUrl: string;
+  previousUrlName: string;
   private componentDestroyed = false;
   formValuesChanged = false;
   projectForm = this.fb.group({
@@ -43,14 +43,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
     photosLarge: [[]],
     factoryWebLink: [''],
     categories: [[], Validators.required],
-    translate: this.fb.array([this.createProjetcTranslate(), this.createProjetcTranslate(), this.createProjetcTranslate()])
+    translate: this.fb.array([this.createProjectTranslate(), this.createProjectTranslate(), this.createProjectTranslate()])
   });
 
   categoriesList = [
     { id: 'architect', title: 'project.architect' },
     { id: 'interior', title: 'project.interior' },
     { id: 'product', title: 'project.product'}];
-  laguagesList = [{ id: 1, title: 'general.english' }, { id: 2, title: 'general.russian' }, { id: 1, title: 'general.spanish' }];
+  languagesList = [{ id: 1, title: 'general.english' }, { id: 2, title: 'general.russian' }, { id: 1, title: 'general.spanish' }];
 
   constructor(
     public dialog: MatDialog,
@@ -64,6 +64,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private uploadService: UploadService
   ) {
     this.projectId = this.route.snapshot.params.id;
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(e => {
+         const urlArr = e['url'].split('/');
+         urlArr.pop();
+         this.previousUrlName = `project.${urlArr[urlArr.length - 1]}`;
+         this.previousUrl = urlArr.join('/');
+      });
   }
 
   ngOnInit() {
@@ -135,7 +143,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       data: {
         content: {
           title: 'project.delete_project',
-          text: 'project.if_you_delete_project',
+          text: 'project.if_you_delete_project_aa',
           cancel: 'general.cancel',
           confirm: 'general.delete'
         }
@@ -154,7 +162,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.images = images;
   }
 
-  createProjetcTranslate(project?: any): FormGroup {
+  createProjectTranslate(project?: any): FormGroup {
     return this.fb.group({
       name: [project && project.name ? project.name : '', Validators.required],
       authors: [project && project.authors ? project.authors : ''],
@@ -166,8 +174,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLenguageName(index: number): string {
-    return this.laguagesList[index].title;
+  getLanguageName(index: number): string {
+    return this.languagesList[index].title;
   }
 
   private createProject() {
