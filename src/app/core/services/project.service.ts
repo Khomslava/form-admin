@@ -36,15 +36,19 @@ export class ProjectService {
     );
   }
 
-  public createProject(project) {
+  createProject(project) {
     return this.http.post(`${environment.firebase.databaseURL}/projects.json`, project, { observe: 'response' });
   }
 
   updateProject(key: string, project) {
-    return this.projectsRef$.update(key, project);
+    return this.http.put(`${environment.firebase.databaseURL}/projects/${key}/.json`, project, { observe: 'response' });
+  }
+
+  updateProjectFirebase(key: string, project) {
+    this.projectsRef$.update(key, project);
   }
 
   deleteProject(key: string) {
-    return this.projectsRef$.remove(key);
+    return this.http.delete(`${environment.firebase.databaseURL}/projects/${key}.json`);
   }
 }

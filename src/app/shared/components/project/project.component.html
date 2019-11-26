@@ -1,6 +1,6 @@
 <mat-toolbar class="bread-crumbs">
   <mat-toolbar-row>
-    <a [routerLink]="previousUrl">{{previousUrlName | translate}}</a>
+    <a [routerLink]="parentUrlName">{{parentUrlName | translate}}</a>
     <span class="separation"> / </span>
     <a>
       <span>{{ projectId === 'new' ? ('project.new_project' | translate) : ('project.edit_project' | translate) }}</span>

@@ -49,6 +49,12 @@
         "products": "Products",
         "architectures": "Architectures",
         "upload_images": "Upload images",
-        "drop_image": "Drop the image"
+        "drop_image": "Drop the image",
+        "project_was_updated": "Project was updated successfully",
+        "project_was_created": "Project was created successfully",
+        "project_was_deleted": "Project was deleted successfully",
+        "project_didnt_created": "The project didn't created. Please try again",
+        "project_didnt_updated": "The project didn't updated. Please try again",
+        "project_didnt_deleted": "The project didn't deleted. Please try again"
     }
 }

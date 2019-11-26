@@ -1,6 +1,3 @@
-import { Upload } from './../../../core/models/upload.model';
-import { UploadService } from './../../../core/services/upload.service';
-
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
@@ -9,9 +6,10 @@ import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError, forkJoin } from 'rxjs';
 import { finalize, catchError, map, first, debounceTime, distinctUntilChanged, takeWhile, switchMap, tap, filter } from 'rxjs/operators';
-
 import * as _ from 'lodash';
 
+import { Upload } from './../../../core/models/upload.model';
+import { UploadService } from './../../../core/services/upload.service';
 import { ProjectService } from './../../../core/services/project.service';
 import { ConfirmDialogComponent } from './../../../shared/components/confirm-dialog/confirm-dialog.component';
 
@@ -32,8 +30,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   project: any;
   images: any[];
   upload: Upload;
-  previousUrl: string;
-  previousUrlName: string;
+  parentUrl: string;
+  parentUrlName: string;
   private componentDestroyed = false;
   formValuesChanged = false;
   projectForm = this.fb.group({
@@ -69,8 +67,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .subscribe(e => {
          const urlArr = e['url'].split('/');
          urlArr.pop();
-         this.previousUrlName = `project.${urlArr[urlArr.length - 1]}`;
-         this.previousUrl = urlArr.join('/');
+         this.parentUrlName = `project.${urlArr[urlArr.length - 1]}`;
+         this.parentUrl = urlArr.join('/');
       });
   }
 
@@ -143,7 +141,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       data: {
         content: {
           title: 'project.delete_project',
-          text: 'project.if_you_delete_project_aa',
+          text: 'project.if_you_delete_project_all',
           cancel: 'general.cancel',
           confirm: 'general.delete'
         }
@@ -152,8 +150,20 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.projectService.deleteProject(this.project.id);
-        this.router.navigate(['/interiors']);
+        this.projectService
+          .deleteProject(this.project.id)
+          .pipe(
+            catchError((err) => {
+              this.openSnackBar(this.translateService.instant('project.project_didnt_deleted'));
+              return throwError(err);
+            }
+          ))
+          .subscribe(() => {
+            this.projectForm.reset();
+            this.formValuesChanged = false;
+            this.openSnackBar(this.translateService.instant('project.project_was_deleted'));
+            this.router.navigate([this.parentUrl]);
+          });
       }
     });
   }
@@ -182,8 +192,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
     const project = this.createProjectPayload();
     this.projectService
       .createProject(project)
-      .subscribe(
-      result => {
+      .pipe(
+        catchError((err) => {
+          this.openSnackBar(this.translateService.instant('project.project_didnt_created'));
+          return throwError(err);
+        }
+      ))
+      .subscribe( result => {
         project.id = result.body['name'];
         this.projectService.updateProject(project.id, project);
         const idFirebaseProduct = project.id;
@@ -198,14 +213,29 @@ export class ProjectComponent implements OnInit, OnDestroy {
             this.uploadService.uploadFile(this.upload, idFirebaseProduct, 'photosLarge');
           });
         }
-        this.router.navigate([`/interiors`]);
-      }
-      );
+        this.projectForm.reset();
+        this.formValuesChanged = false;
+        this.openSnackBar(this.translateService.instant('project.project_was_created'));
+        this.router.navigate([this.parentUrl]);
+      });
   }
 
   private updateProject() {
     const payload = this.createProjectPayload();
-    this.projectService.updateProject(this.project.id, payload);
+    this.projectService
+    .updateProject(this.project.id, payload)
+    .pipe(
+      catchError((err) => {
+        this.openSnackBar(this.translateService.instant('project.project_didnt_updated'));
+        return throwError(err);
+      }
+    ))
+    .subscribe(() => {
+      this.projectForm.reset();
+      this.formValuesChanged = false;
+      this.openSnackBar(this.translateService.instant('project.project_was_updated'));
+      this.router.navigate([this.parentUrl]);
+    });
   }
 
   private getProject() {
@@ -214,6 +244,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .subscribe(project => {
         this.project = project;
         this.patchProjectFormValues(project);
+        this.formValuesChanged = false;
       });
   }
 
@@ -261,8 +292,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
       square,
       year,
       photosLarge,
+      factoryWebLink,
       link: factoryWebLink ? factoryWebLink : '',
-      categoryId: categories, // TODO: need to change name of propery in all app
+      categoryId: categories, // TODO: need to change name of property in all app
       translate,
       order: this.project && this.project.order ? this.project.order : 0,
       name: this.getName(translate),

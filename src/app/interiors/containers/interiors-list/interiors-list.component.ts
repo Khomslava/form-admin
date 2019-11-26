@@ -1,12 +1,13 @@
-import { filter, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatSnackBar } from '@angular/material';
+
+import { throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 
 import { ProjectService } from './../../../core/services/project.service';
-
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -24,7 +25,7 @@ export class InteriorsListComponent implements OnInit {
     private projectService: ProjectService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public translate: TranslateService,
+    public translateService: TranslateService,
     private router: Router
   ) { }
 
@@ -69,18 +70,48 @@ export class InteriorsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res && project.categoryId && project.categoryId.length) {
         if (project.categoryId.length  === 1) {
-          this.projectService.deleteProject(project.id);
-          this.projects.splice(index, 1);
+          this.deleteProject(project.id, index);
         } else {
           this.projects[index].categoryId = this.projects[index].categoryId.filter(category => category !== 'interior');
-          this.projectService.updateProject(project.id, this.projects[index]);
-          this.projects = this.projects.filter(proj => proj.categoryId.some(category => category === 'interior'));
+          this.updateProject(project);
         }
-
-        this.projects = this.setProjectsOrders(this.projects);
-        this.dataSource = new MatTableDataSource(this.projects);
-        this.saveAllProjects();
       }
+    });
+  }
+
+  private deleteProject(project, index: number) {
+    this.projectService
+    .deleteProject(project.id)
+    .pipe(
+      catchError((err) => {
+        this.openSnackBar(this.translateService.instant('project.project_didnt_deleted'));
+        return throwError(err);
+      }
+    ))
+    .subscribe(() => {
+      this.openSnackBar(this.translateService.instant('project.project_was_deleted'));
+      this.projects.splice(index, 1);
+      this.projects = this.setProjectsOrders(this.projects);
+      this.dataSource = new MatTableDataSource(this.projects);
+      this.saveAllProjects();
+    });
+  }
+
+  private updateProject(project) {
+    this.projectService
+    .updateProject(project.id, project)
+    .pipe(
+      catchError((err) => {
+        this.openSnackBar(this.translateService.instant('project.project_didnt_updated'));
+        return throwError(err);
+      }
+    ))
+    .subscribe(() => {
+      this.openSnackBar(this.translateService.instant('project.project_was_updated'));
+      this.projects = this.projects.filter(proj => proj.categoryId.some(category => category === 'interior'));
+      this.projects = this.setProjectsOrders(this.projects);
+      this.dataSource = new MatTableDataSource(this.projects);
+      this.saveAllProjects();
     });
   }
 
@@ -97,8 +128,8 @@ export class InteriorsListComponent implements OnInit {
     if (this.projects[index - 1]) {
       this.projects[index].orders.interior = index - 1;
       this.projects[index - 1].orders.interior = index;
-      this.projectService.updateProject(this.projects[index].id, this.projects[index]);
-      this.projectService.updateProject(this.projects[index - 1].id, this.projects[index - 1]);
+      this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
+      this.projectService.updateProjectFirebase(this.projects[index - 1].id, this.projects[index - 1]);
       this.projects = this.sortByOrder(this.projects);
       this.dataSource = new MatTableDataSource(this.projects);
     }
@@ -109,8 +140,8 @@ export class InteriorsListComponent implements OnInit {
     if (this.projects[index + 1]) {
       this.projects[index].orders.interior = index + 1;
       this.projects[index + 1].orders.interior = index;
-      this.projectService.updateProject(this.projects[index].id, this.projects[index]);
-      this.projectService.updateProject(this.projects[index + 1].id, this.projects[index + 1]);
+      this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
+      this.projectService.updateProjectFirebase(this.projects[index + 1].id, this.projects[index + 1]);
       this.projects = this.sortByOrder(this.projects);
       this.dataSource = new MatTableDataSource(this.projects);
     }
@@ -148,6 +179,12 @@ export class InteriorsListComponent implements OnInit {
       }
     });
     return projects;
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, '', {
+      duration: 3000
+    });
   }
 
 }

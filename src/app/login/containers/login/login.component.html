@@ -1,1 +1,43 @@
-<p>login works!</p>
+<div class="auth-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><span i18n>{{'identify.log_in' | translate}}</span></mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form autocomplete="off" [formGroup]="form">
+        <mat-form-field>
+          <input #emailField matInput type="text" formControlName="email" maxlength="100" i18n-placeholder
+            [placeholder]="'identify.user_name' | translate" />
+          <mat-error *ngIf="form.get('email').invalid" i18n>{{'identify.enter_valid_user_name' | translate}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="password" formControlName="password" maxlength="100"
+            (keydown.enter)="onInputEnter($event)" i18n-placeholder [placeholder]="'identify.password' | translate"
+            [type]="hide ? 'password' : 'text'" />
+          <button mat-icon-button matSuffix (click)="togglePswVisibility()"
+            [matTooltip]="'identify.show-hide-password' | translate" matTooltipPosition="above">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password').invalid" i18n>{{'identify.enter_password'  | translate }}</mat-error>
+        </mat-form-field>
+
+        <div class="forgot-password" (click)="goToForgrotPassword()">
+          {{'identify.forgot_password'  | translate }}
+        </div>
+
+        <mat-checkbox color="primary" formControlName="rememberMe">
+          <span i18n>{{'identify.remember_me' | translate}}</span>
+        </mat-checkbox>
+      </form>
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <button mat-flat-button color="primary" [disabled]="form.invalid" (keyup.enter)="login()" (click)="login()">
+        <span i18n>{{'identify.log_in' | translate}}</span>
+      </button>
+    </mat-card-footer>
+  </mat-card>
+</div>
