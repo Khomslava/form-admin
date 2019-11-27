@@ -132,8 +132,6 @@ export class ProductListComponent implements OnInit {
       this.projects[index - 1].orders.product = index;
       this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
       this.projectService.updateProjectFirebase(this.projects[index - 1].id, this.projects[index - 1]);
-      this.projects = this.sortByOrder(this.projects);
-      this.dataSource = new MatTableDataSource(this.projects);
     }
   }
 
@@ -144,8 +142,6 @@ export class ProductListComponent implements OnInit {
       this.projects[index + 1].orders.product = index;
       this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
       this.projectService.updateProjectFirebase(this.projects[index + 1].id, this.projects[index + 1]);
-      this.projects = this.sortByOrder(this.projects);
-      this.dataSource = new MatTableDataSource(this.projects);
     }
   }
 
