@@ -1,6 +1,8 @@
+import { IProject } from './../models/project.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Store } from '@ngrx/store';
 
 import { map, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -17,7 +19,8 @@ export class ProjectService {
 
   constructor(
     private db: AngularFireDatabase,
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store<IProject[]>
   ) {
     this.projects$ = db.list('projects').valueChanges();
     this.projectsRef$ = db.list('projects');

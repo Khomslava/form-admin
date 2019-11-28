@@ -289,14 +289,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     return {
       showInMainPages,
-      square,
-      year,
+      square: +square,
+      year: +year,
       photosLarge,
       factoryWebLink,
-      link: factoryWebLink ? factoryWebLink : '',
+      // link: factoryWebLink ? factoryWebLink : '',
       categoryId: categories, // TODO: need to change name of property in all app
       translate,
-      order: this.project && this.project.order ? this.project.order : 0,
+      // order: this.project && this.project.order ? this.project.order : 0,
       name: this.getName(translate),
       factory: translate && translate[0] && translate[0].factory ? translate[0].factory : '', // TODO: need remove for all page
       id: this.project && this.project.id ? this.project.id : '', // TODO: need remove for all page

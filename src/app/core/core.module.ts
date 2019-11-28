@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -11,18 +10,27 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
-import { environment } from '../../environments/environment';
+// NgRx
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { QuillModule } from 'ngx-quill';
 
 import { SharedModule } from '../shared/shared.module';
+import { environment } from '../../environments/environment';
+import { ProjectEffects } from '../store/effects/projects.effects';
+import { appReducers } from './../store/reducers/app.reducers';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+// Configurate header tools of quill text edit redactor
 const quillConfig = {
   modules: {
     toolbar: [
@@ -60,6 +68,10 @@ const quillConfig = {
     FlexLayoutModule,
     QuillModule.forRoot(quillConfig),
     NgxWebstorageModule.forRoot(),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([ProjectEffects]),
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [
     HttpClientModule,

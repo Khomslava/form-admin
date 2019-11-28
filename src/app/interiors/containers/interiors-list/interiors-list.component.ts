@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ProjectService } from './../../../core/services/project.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { IAppState } from 'src/app/store/states/app.state';
 
 @Component({
   selector: 'app-interiors-list',
@@ -26,7 +28,8 @@ export class InteriorsListComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     public translateService: TranslateService,
-    private router: Router
+    private router: Router,
+    private store: Store<IAppState>
   ) { }
 
   ngOnInit() {
