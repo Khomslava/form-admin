@@ -130,6 +130,8 @@ export class InteriorsListComponent implements OnInit {
       this.projects[index - 1].orders.interior = index;
       this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
       this.projectService.updateProjectFirebase(this.projects[index - 1].id, this.projects[index - 1]);
+      this.projects = this.sortByOrder(this.projects);
+      this.dataSource = new MatTableDataSource(this.projects);
     }
   }
 
@@ -140,6 +142,8 @@ export class InteriorsListComponent implements OnInit {
       this.projects[index + 1].orders.interior = index;
       this.projectService.updateProjectFirebase(this.projects[index].id, this.projects[index]);
       this.projectService.updateProjectFirebase(this.projects[index + 1].id, this.projects[index + 1]);
+      this.projects = this.sortByOrder(this.projects);
+      this.dataSource = new MatTableDataSource(this.projects);
     }
   }
 
@@ -154,7 +158,7 @@ export class InteriorsListComponent implements OnInit {
   }
 
   private saveAllProjects() {
-    this.projects.forEach(project => this.projectService.updateProject(project.id, project));
+    this.projects.forEach(project => this.projectService.updateProjectFirebase(project.id, project));
   }
 
   private sortByOrder(projects): any[] {
@@ -170,8 +174,6 @@ export class InteriorsListComponent implements OnInit {
     projects.forEach( (project, i) => {
       if (project.orders) {
         project.orders.interior = i;
-      } else {
-        project.orders = { interior: i};
       }
     });
     return projects;
