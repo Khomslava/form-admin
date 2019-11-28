@@ -200,7 +200,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       ))
       .subscribe( result => {
         project.id = result.body['name'];
-        this.projectService.updateProject(project.id, project);
+        this.projectService.updateProjectFirebase(project.id, project);
         const idFirebaseProduct = project.id;
 
         if (this.images) {
@@ -222,6 +222,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   private updateProject() {
     const payload = this.createProjectPayload();
+
+    payload.photosLarge = this.images.filter(image => image.url && !image.size);
+    const newImages = this.images.filter(image => image.size);
+
     this.projectService
     .updateProject(this.project.id, payload)
     .pipe(
@@ -231,6 +235,18 @@ export class ProjectComponent implements OnInit, OnDestroy {
       }
     ))
     .subscribe(() => {
+      const idFirebaseProduct = this.project.id;
+
+      if (newImages && newImages.length) {
+        const imageToUpload = newImages;
+        const imagesIdx = _.range(imageToUpload.length);
+        _.each(imagesIdx, (idx) => {
+          this.upload = new Upload(imageToUpload[idx]);
+          this.upload['order'] = idx;
+          this.upload['showOnMainPage'] = newImages[idx]['showOnMainPage'];
+          this.uploadService.uploadFile(this.upload, idFirebaseProduct, 'photosLarge');
+        });
+      }
       this.projectForm.reset();
       this.formValuesChanged = false;
       this.openSnackBar(this.translateService.instant('project.project_was_updated'));
