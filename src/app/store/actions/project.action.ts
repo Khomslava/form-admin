@@ -6,7 +6,9 @@ export enum EProjectActions {
   GetProjects = '[Project] Get Projects',
   GetProjectsSuccess = '[Project] Get Projects Success',
   GetProject = '[Project] Get Project',
-  GetProjectSuccess = '[Project] Get Project Success'
+  GetProjectSuccess = '[Project] Get Project Success',
+  UpdateProject = '[Project] Update project',
+  DeleteProject = '[Project] Delete project'
 }
 
 export class GetProjects implements Action {
@@ -28,5 +30,21 @@ export class GetProjectSuccess implements Action {
   constructor(public payload: IProject) {}
 }
 
-export type ProjectActions = GetProjects | GetProjectSuccess | GetProject | GetProjectsSuccess;
+export class UpdateProject implements Action {
+  public readonly type = EProjectActions.UpdateProject;
+  constructor(public payload: IProject) {}
+}
+
+export class DeleteProject implements Action {
+  public readonly type = EProjectActions.DeleteProject;
+  constructor(public payload: IProject) {}
+}
+
+export type ProjectActions =
+  GetProjects |
+  GetProjectSuccess |
+  GetProject |
+  GetProjectsSuccess |
+  UpdateProject |
+  DeleteProject;
 

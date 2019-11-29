@@ -6,9 +6,14 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
 
 import { ProjectService } from './../../../core/services/project.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { IAppState } from 'src/app/store/states/app.state';
+import { GetProjects } from './../../../store/actions/project.action';
+import { selectProjectsByCategory } from './../../../store/selectors/project.selectors';
+import { IProject } from './../../../core/models/project.model';
 
 @Component({
   selector: 'app-architect-list',
@@ -18,14 +23,17 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 export class ArchitectListComponent implements OnInit {
   projects = [];
   displayedColumns: string[] = ['order', 'image', 'name', 'square', 'year', 'actions'];
-  dataSource: MatTableDataSource<any[]>;
+  dataSource: MatTableDataSource<IProject[]>;
+
+  private category = 'architect';
 
   constructor(
     private projectService: ProjectService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     public translateService: TranslateService,
-    private router: Router
+    private router: Router,
+    private store: Store<IAppState>
   ) { }
 
   ngOnInit() {
@@ -33,18 +41,14 @@ export class ArchitectListComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjects()
-      .pipe(map((projects: any[]) => {
-        if (projects && projects.length) {
-          projects = projects.filter(project => project.categoryId.some(category => category === 'architect'));
-          projects = this.sortByOrder(projects);
-          projects = this.setProjectsOrders(projects);
-        }
-        return projects;
-      }))
-      .subscribe(projects => {
+    this.store.dispatch(new GetProjects());
+    this.store
+      .pipe(select(selectProjectsByCategory(this.category)))
+      .subscribe( (projects: IProject[]) => {
+        projects = this.sortByOrder(projects);
+        projects = this.setProjectsOrders(projects);
         this.projects = projects;
-        this.dataSource = new MatTableDataSource(projects);
+        this.dataSource = new MatTableDataSource(this.projects);
       });
   }
 
