@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 
+import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError, forkJoin } from 'rxjs';
 import { finalize, catchError, map, first, debounceTime, distinctUntilChanged, takeWhile, switchMap, tap, filter } from 'rxjs/operators';
@@ -12,6 +13,10 @@ import { Upload } from './../../../core/models/upload.model';
 import { UploadService } from './../../../core/services/upload.service';
 import { ProjectService } from './../../../core/services/project.service';
 import { ConfirmDialogComponent } from './../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { selectSelectedProject } from './../../../store/selectors/project.selectors';
+import { GetProject } from './../../../store/actions/project.action';
+import { IProject } from './../../../core/models/project.model';
+import { IAppState } from 'src/app/store/states/app.state';
 
 enum eOrder {
   'architect' = 1,
@@ -27,7 +32,7 @@ enum eOrder {
 export class ProjectComponent implements OnInit, OnDestroy {
 
   projectId: string;
-  project: any;
+  project: IProject;
   images: any[];
   upload: Upload;
   parentUrl: string;
@@ -59,7 +64,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private detectionRef: ChangeDetectorRef,
     private projectService: ProjectService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private store: Store<IAppState>
   ) {
     this.projectId = this.route.snapshot.params.id;
     router.events
@@ -255,14 +261,17 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   private getProject() {
-    this.projectService
-      .getProjectById(this.projectId)
-      .subscribe(project => {
-        this.project = project;
-        this.patchProjectFormValues(project);
-        this.formValuesChanged = false;
+    this.store.dispatch(new GetProject(this.projectId));
+    this.store.pipe(select(selectSelectedProject))
+      .subscribe( (project: IProject) => {
+        if (project) {
+          this.project = project;
+          this.patchProjectFormValues(project);
+          this.formValuesChanged = false;
+        }
       });
   }
+
 
   get translate(): FormArray {
     return this.projectForm.get('translate') as FormArray;

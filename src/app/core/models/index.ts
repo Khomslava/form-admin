@@ -3,3 +3,6 @@ export * from './api.model';
 export * from './gallery-image.model';
 export * from './upload.model';
 export * from './project.model';
+export * from './contacts.model';
+export * from './about.model';
+export * from './awards.model';

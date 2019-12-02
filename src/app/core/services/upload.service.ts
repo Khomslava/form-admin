@@ -35,7 +35,6 @@ export class UploadService {
         console.log(error);
       },
       (): any => {
-
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
           upload.url = downloadURL;
           upload.name = upload.file.name;

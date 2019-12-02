@@ -24,6 +24,7 @@ import { QuillModule } from 'ngx-quill';
 import { SharedModule } from '../shared/shared.module';
 import { environment } from '../../environments/environment';
 import { ProjectEffects } from '../store/effects/projects.effects';
+import { ContactsEffects } from './../store/effects/contacts.effects';
 import { appReducers } from './../store/reducers/app.reducers';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -69,7 +70,7 @@ const quillConfig = {
     QuillModule.forRoot(quillConfig),
     NgxWebstorageModule.forRoot(),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([ProjectEffects]),
+    EffectsModule.forRoot([ProjectEffects, ContactsEffects]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],

@@ -1,1 +1,58 @@
-<p>contacts works!</p>
+<form class="project-form" [formGroup]="contactsForm" (keydown.enter)="$event.preventDefault()" novalidate>
+
+    <div class="form-content" fxLayout="row nowrap" fxLayoutAlign="space-between start">
+        <div formArrayName="translate" *ngFor="let project of contactsForm.get('translate').controls; let i = index;" class="column"
+            fxLayout="column" fxLayoutAlign="start start">
+            <div fxFlex [formGroupName]="i">
+                <div class="translate-title">
+                    {{ getLanguageName(i) | translate}}
+                </div>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="name" [placeholder]="'contact.name_company' | translate" />
+                    <mat-error *ngIf="hasError(project.get('name'), 'required')">
+                        {{ "general.field_required" | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="country" [placeholder]="'contact.country' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="city" [placeholder]="'contact.city' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="street" [placeholder]="'contact.street' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="build" [placeholder]="'contact.build' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="index" [placeholder]="'contact.post_index' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="phone" [placeholder]="'contact.phone' | translate" />
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="email" [placeholder]="'contact.email' | translate" />
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons-container" fxLayout="row nowrap" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">
+            {{ "general.save" | translate }}
+        </button>
+    </div>
+
+    <div class="spinner-wrapper" *ngIf="isLoading">
+        <mat-spinner diameter="75"></mat-spinner>
+    </div>
+</form>

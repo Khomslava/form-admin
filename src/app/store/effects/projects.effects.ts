@@ -1,4 +1,3 @@
-import { selectProjectList } from './../selectors/project.selectors';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
@@ -9,6 +8,8 @@ import { map, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
 import { EProjectActions, GetProject, GetProjectSuccess, GetProjects, GetProjectsSuccess, UpdateProject, DeleteProject } from './../actions/project.action';
 import { ProjectService } from './../../core/services/project.service';
 import { IAppState } from '../states/app.state';
+import { IProject } from './../../core/models/project.model';
+import { selectProjectList } from './../selectors/project.selectors';
 
 @Injectable()
 export class ProjectEffects {
@@ -16,12 +17,8 @@ export class ProjectEffects {
   getProject$ = createEffect(() =>
     this.actions$.pipe(
       ofType<GetProject>(EProjectActions.GetProject),
-      map(action => action.payload),
-      withLatestFrom(this.store.pipe(select(selectProjectList))),
-      switchMap(([id, projects]) => {
-        const selectedProject = projects.filter(project => project.id === id)[0];
-        return of(new GetProjectSuccess(selectedProject));
-      }),
+      switchMap(action => this.projectService.getProjectById(action.payload)),
+      switchMap((project: IProject) => of(new GetProjectSuccess(project))),
       catchError(() => EMPTY)
     )
   );

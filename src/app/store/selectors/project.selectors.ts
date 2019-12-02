@@ -25,3 +25,13 @@ export const selectProjectsByCategory = (category: string) => createSelector(
   }
 );
 
+export const selectProjectById = (projectId: string) => createSelector(
+  selectProjects,
+  (state: IProjectState) => {
+    if (state.projects && state.projects.length) {
+      return state.projects.find(project => project.id === projectId);
+    }
+    return null;
+  }
+);
+

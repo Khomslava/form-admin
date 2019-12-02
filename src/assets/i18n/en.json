@@ -56,5 +56,15 @@
         "project_didnt_created": "The project didn't created. Please try again",
         "project_didnt_updated": "The project didn't updated. Please try again",
         "project_didnt_deleted": "The project didn't deleted. Please try again"
+    },
+    "contact": {
+        "name_company": "Name of company",
+        "country": "Country",
+        "city": "City",
+        "street": "Street",
+        "build": "Build",
+        "post_index": "Post index",
+        "phone": "Phone",
+        "email": "email"
     }
 }

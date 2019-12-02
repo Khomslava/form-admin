@@ -26,11 +26,11 @@ export class ProjectService {
     this.projectsRef$ = db.list('projects');
   }
 
-  getProjects(): Observable<any[]>  {
+  getProjects(): Observable<IProject[]>  {
     return this.projects$;
   }
 
-  getProjectById(id: string): Observable<any> {
+  getProjectById(id: string): Observable<IProject> {
     return this.projects$.pipe(
       map( projects => {
         const filtedProjecs = projects.filter( proj => proj.id === id);

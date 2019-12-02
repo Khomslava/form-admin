@@ -4,3 +4,6 @@ export * from './guards/auth.guard';
 export * from './project.service';
 export * from './users.service';
 export * from './helpers/http.service';
+export * from './about.service';
+export * from './awards.service';
+export * from './contacts.service';

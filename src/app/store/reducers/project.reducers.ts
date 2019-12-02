@@ -3,7 +3,6 @@ import { createReducer, on } from '@ngrx/store';
 import { ProjectActions, EProjectActions } from './../actions/project.action';
 import { initialProjectState, IProjectState } from './../states/project.state';
 
-
 export const projectReducers = (
   state = initialProjectState,
   action: ProjectActions
@@ -16,6 +15,18 @@ export const projectReducers = (
       };
     }
     case EProjectActions.GetProjectSuccess: {
+      return {
+        ...state,
+        selectedProject: action.payload
+      };
+    }
+    case EProjectActions.DeleteProjectSuccess: {
+      return {
+        ...state,
+        selectedProject: action.payload
+      };
+    }
+    case EProjectActions.UpdateProjectSuccess: {
       return {
         ...state,
         selectedProject: action.payload
