@@ -1,9 +1,9 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IProjectState } from '../states/project.state';
 import { IAppState } from '../states/app.state';
 
-const selectProjects = (state: IAppState) => state.projects;
+const selectProjects = createFeatureSelector<IProjectState>('projects');
 
 export const selectProjectList = createSelector(
   selectProjects,

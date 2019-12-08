@@ -43,6 +43,10 @@ const routes: Routes = [
       {
         path: ERoutingPath.ABOUT,
         loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+      },
+      {
+        path: ERoutingPath.AWARDS,
+        loadChildren: () => import('./awards/awards.module').then(m => m.AwardsModule)
       }
     ]
   }

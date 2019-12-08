@@ -5,6 +5,7 @@
         "products": "Products",
         "about": "About",
         "contacts": "Contacts",
+        "awards": "Awards",
         "field_required": "The field required"
     },
     "general": {
@@ -17,7 +18,10 @@
         "spanish": "Spanish",
         "save_changes": "Save changes",
         "dont_save": "Don't save",
-        "want_save_changes_before_leaving": "Save changes before leaving the current page?"
+        "want_save_changes_before_leaving": "Save changes before leaving the current page?",
+        "add_new": "Add new",
+        "move_up": "Move up",
+        "mode_down": "Mode down"
     },
     "project": {
         "delete_project": "Delete project",
@@ -66,5 +70,12 @@
         "post_index": "Post index",
         "phone": "Phone",
         "email": "email"
+    },
+    "award": {
+        "awards": "Awards",
+        "name": "Name",
+        "order": "Order",
+        "actions": "Actions",
+        "amount_nominations": "Amount nominations"
     }
 }

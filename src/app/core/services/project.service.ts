@@ -1,12 +1,12 @@
-import { IProject } from './../models/project.model';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Store } from '@ngrx/store';
-
 import { map, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
+import { IProject } from './../models/project.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
