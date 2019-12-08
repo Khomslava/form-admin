@@ -1,0 +1,61 @@
+@import 'variables';
+:host {
+  .awards-wrp {
+    padding: 0 1.5rem;
+    .title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+    .header {
+      .add-award {
+        .mat-icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          line-height: 2.5rem;
+        }
+      }
+      .filter {
+        width: 20rem;
+      }
+    }
+    table {
+      width: 100%;
+    }
+    tr.mat-row {
+      outline: none;
+      cursor: pointer;
+    }
+    .mat-row:hover {
+      background-color: $color-gray-light;
+    }
+    .error-icon {
+      color: $color-error;
+    }
+    .logo {
+      max-height: 2rem;
+      max-width: 4rem;
+      object-fit: contain;
+    }
+    .action-buttons {
+      .action-button {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        color: $color-gray;
+        &:hover {
+          color: $color-black;
+        }
+      }
+    }
+    .column-sm {
+      width: 60px;
+    }
+    .column-md {
+      width: 100px;
+    }
+  }
+}
+

@@ -36,6 +36,12 @@ export const NavigationItems = [
         children: []
     },
     {
+        displayName: 'navigation-menu.awards',
+        iconName: 'emoji_events',
+        route: 'awards',
+        children: []
+    },
+    {
         displayName: 'navigation-menu.contacts',
         iconName: 'phone',
         route: 'contacts',

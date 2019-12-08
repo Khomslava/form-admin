@@ -8,7 +8,8 @@ export enum ERoutingPath {
     ARCHITECTURES = 'architectures',
     PRODUCTS = 'products',
     ABOUT = 'about',
-    CONTACTS = 'contacts'
+    CONTACTS = 'contacts',
+    AWARDS = 'awards'
 }
 
 export const LAYOUT_DEFAULT_ROUTE = ERoutingPath.DEFAULT;
